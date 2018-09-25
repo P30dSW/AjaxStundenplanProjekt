@@ -7,18 +7,20 @@ $(document).ready(function(){
  * @returns Array OF laborlist and State of Connection
  */
 function getLaborList(){
-    var laborList = null;
+    
     $.ajax({
   url: "http://sandbox.gibm.ch/berufe.php",
-  dataType: "jsonp",
+  dataType: "json",
   error: function(){ 
-    laborList = [null, "ERROR"];
+    
+    return [null, "ERROR"];
 },
 success: function(json){
-    laborList = [json,"SUCCESS"];
+    
+    return [json,"SUCCESS"];
 }
     });
-    return laborList;
+    
 }
 /**
  * gives out a classList from a laborId

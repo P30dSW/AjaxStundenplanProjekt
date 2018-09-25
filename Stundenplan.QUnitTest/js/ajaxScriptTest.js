@@ -1,3 +1,9 @@
 QUnit.test("getLaborListTEST", function(a){
-    a.equal(getLaborList()[1], "SUCCESS");
+    
+    $.ajax = function(options) {
+        
+        options.success("SUCCESS");
+    };
+    var test = getLaborList();
+    a.equal(test[1], "SUCCESS");
 });
