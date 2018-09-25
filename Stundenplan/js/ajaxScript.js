@@ -1,9 +1,23 @@
+$(document).ready(function(){
+    getLaborList();
+});
+
 /**
  * Return the LaborList as Object
  * @returns Array OF laborlist and State of Connection
  */
 function getLaborList(){
-
+    var laborList = null;
+    $.ajax({
+  url: "http://sandbox.gibm.ch/berufe.php",
+  dataType: "jsonp",
+  error: function(){ 
+    laborList = [null, "ERROR"];
+},
+success: function(json){
+    laborList = [json,"SUCCESS"];
+}
+    });
     return laborList;
 }
 /**
@@ -24,3 +38,6 @@ function getClassPlan(classId){
 
     return classPlans;
 }
+
+
+
