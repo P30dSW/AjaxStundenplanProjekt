@@ -1,9 +1,12 @@
 QUnit.test("getLaborListTEST", function(a){
-    
-    $.ajax = function(options) {
-        
-        options.success("SUCCESS");
-    };
-    var test = getLaborList();
-    a.equal(test[1], "SUCCESS");
+    //Good to know https://code.tutsplus.com/tutorials/how-to-test-your-javascript-code-with-qunit--net-9077
+    stop(1000);
+
+
+    getLaborList(function(){
+        ok(true);
+    });
+    setTimeout(function() {
+        start();
+    }, 2000);
 });
