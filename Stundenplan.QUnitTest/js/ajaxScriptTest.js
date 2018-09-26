@@ -1,10 +1,8 @@
 QUnit.test("getLaborListTEST", function(a){
     //Good to know https://code.tutsplus.com/tutorials/how-to-test-your-javascript-code-with-qunit--net-9077
-    stop(1000);
-
-
+     stop(1000);
     getLaborList(function(){
-        ok(true);
+        a.ok(true);
     });
     setTimeout(function() {
         start();
