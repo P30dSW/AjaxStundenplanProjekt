@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    //cookie check
+    //TODO: cookie check
     getLaborList();
     $(document).on("click",".addSelection",changeDropDownSelection);
 });
@@ -56,7 +56,7 @@ function LaborListToDOM(listArray){
  * Wenn eine Selection vom Dropdownliste gewählt wird, updated die methode vom header
  */
 function changeDropDownSelection(){
-    //coockie check
+    //TODO: coockie check
     //html sorgt dafür, dass der alte eintrag gelöscht wird
     $("#dropDownBtn").html($(this).text());
 }
