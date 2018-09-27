@@ -8,12 +8,12 @@ $(document).ready(function(){
  * @returns Array OF laborlist and State of Connection
  */
 function getLaborList(){
-    
-    $.ajax({
+
+    return $.ajax({
   url: "http://sandbox.gibm.ch/berufe.php",
   dataType: "json",
   error: function(){ 
-    
+   
     LaborListToDOM( [null, "ERROR"]);
 },
 success: function(json){
