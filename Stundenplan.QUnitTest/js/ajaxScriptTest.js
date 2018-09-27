@@ -13,3 +13,15 @@ QUnit.test("getLaborListTEST", function(a){
         done();
       });
 });
+
+QUnit.test("getLaborClassesTEST", function(a){
+    var done = a.async();
+    getLaborClasses(5).done(function(json) {
+        if(typeof json, "object"){
+            a.ok(true,"Der Webservice Response is ein Objekt");
+        }else{
+            a.ok(false,"Der Webservice Response is kein Objekt");
+        }
+        done();
+      });
+});
