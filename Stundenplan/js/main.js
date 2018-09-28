@@ -8,9 +8,13 @@ $(document).ready(function(){
     getLaborList();
     $(document).on("click",".addSelectionLaborList",changeDropDownSelectionLaborList);
     $(document).on("click",".addSelectionLaborClass",changeDropDownSelectionLaborClass);
+    //TODO: week forwards (woche wird im cookie gespeichert)
+    //TODO: week backwards(woche wird im cookie gespeichert)
+    $("#weekBackwardsBtn").on("click",changeWeekClassListBack);
+    $("#weekForwardsBtn").on("click",changeWeekClassListForward);
 });
 /**
- * Return the LaborList as Object
+ * AJAX FUNCTION: Return the LaborList as Object
  * @returns Ajax Object of the Function
  */
 function getLaborList(){
@@ -31,7 +35,7 @@ success: function(json){
 }
 
 /**
- * gives out a classList from a laborId
+ *  AJAX FUNCTION: gives out a classList from a laborId
  * @param  {string} laborId - Id of a selected Labor
  * @returns Ajax Object of the Function
  */
@@ -51,13 +55,30 @@ function getLaborClasses(laborId){
           });
 }
 /**
- * gives back classPlan from classID
+ *  AJAX FUNCTION: gives back classPlan from classID
  * @param  {string} classId - ID of selected Class
- * @returns Array of classplans and State of Connection
+ * @param  {string} weekYear - string of the week and year in format ww-yyyy, Def: ""
+ * @returns Ajax Object of the Function
  */
-function getClassPlan(classId){
-
-    return classPlans;
+function getClassPlan(classId,newWeek,weekYear = ""){
+    var url = "";
+    if( weekYear != ""){
+        url = "http://sandbox.gibm.ch/tafel.php?klasse_id=" + classId + "&woche=" +weekYear.slice(5) + "-" + weekYear.slice(0,4);
+    }else{
+        url = "http://sandbox.gibm.ch/tafel.php?klasse_id=" + classId;
+    }
+    return $.ajax({
+        url: url,
+        dataType: "json",
+        error: function(){ 
+         
+            ClassWeekToDOM( [null,null, "ERROR"]);
+      },
+      success: function(json){
+          
+        ClassWeekToDOM( [json,newWeek,"SUCCESS"]);
+      }
+          });
 }
 
 /**
@@ -81,10 +102,49 @@ function LaborClassToDOM(classList){
     var loaborClasses = classList[0];
     
     $.each(loaborClasses ,function(i){
-        console.log(loaborClasses[i]);
+        //console.log(loaborClasses[i]);
         $("#LaborClassDropDownMenu").append(" <a class=\"dropdown-item addSelectionLaborClass\" value=\"" + loaborClasses[i].klasse_id + "\" >" +loaborClasses[i].klasse_longname + "</a>");
     });
+    
+    
 }
+/**
+ * TODO: Documentation ENG
+ * @param  {} weekObj
+ */
+function ClassWeekToDOM(weekObj) {  
+var classWeek = weekObj[0];
+$("#ClassWeekTbl").html("");
+if(typeof classWeek !== 'undefined' && classWeek.length > 0){
+    $.each(classWeek ,function(i){
+        // column order: Datum,Wochentag,Von,Bis,Lehrer,Fach,Raum
+        $("#ClassWeekTbl").append("<tr>" +
+        "<td>" +classWeek[i].tafel_datum + "</td>" +
+        "<td>" +convertWeekNumToGerman(classWeek[i].tafel_wochentag) + "</td>" +
+        "<td>" +classWeek[i].tafel_von + "</td>" +
+        "<td>" +classWeek[i].tafel_bis + "</td>" +
+        "<td>" +classWeek[i].tafel_lehrer + "</td>" +
+        "<td>" +classWeek[i].tafel_fach + "</td>" +
+        "<td>" +classWeek[i].tafel_raum + "</td>" 
+        + "</tr>" );
+    });
+}else{
+    $("#ClassWeekTbl").append("<tr><td colspan=\"7\" class=\" text-center \">Schulfreie Zeit</td></tr>");
+}
+
+if(weekObj[1] == true){
+    
+    var weekYear = getWeekNumber(new Date());
+
+    $("#displayBtn").html(weekYear[1] + " " +  weekYear[0]);
+    //attribute week
+    //console.log(weekYear[1] + " " +  weekYear[0]);
+    $("#displayBtn").attr("woche",weekYear);
+}
+//fadeIn if it isnt already visible
+$("#mainDisplayTbl").fadeIn();
+}
+
 /**
  * TODO: Documentation ENG
  */
@@ -92,25 +152,116 @@ function changeDropDownSelectionLaborList(){
     //TODO: coockie check
     $("#LaborClassdropDownBtn").text("");
     $("#LaborClassDropDownMenu").html("");
+    //Fades Class list if already visible
     $("#ClassListCard").fadeOut();
+    $("#ClassWeekCard").fadeOut();
     //html sorgt dafür, dass der alte eintrag gelöscht wird
     $("#LaborListdropDownBtn").html($(this).text());
     
     $("#ClassListCard").fadeIn(1000);
+    
+    //Handling Cookies
     Cookies.set("beruf_id",$(this).attr("value"));
     Cookies.set("beruf_name",$(this).text());
-    //console.log(Cookies.get());
-    //set beruf_id
     getLaborClasses($(this).attr("value"));
 }
 /**
  * TODO: Documentation ENG
  */
 function changeDropDownSelectionLaborClass(){
-    $("#LaborClassdropDownBtn").html($(this).text());
+    var thisObj = this;
+    //Fades Class list if already visible
+    $("#ClassWeekCard").fadeOut();
+    //only proceed if the card if faced out
+    $("#ClassWeekCard").promise().done(function(){
+        $("#displayBtn").text("");
+        $("#ClassWeekTbl").html("");
+        //setting Table data
+        //fades in 
+        $("#ClassWeekCard").fadeIn(1000);
+        $("#LaborClassdropDownBtn").html($(thisObj).text());
+        //Handling Cookies
+        Cookies.set("klasse_id",$(thisObj).attr("value"));
+        getClassPlan($(thisObj).attr("value"),true);
+        //saves classid at WeekSelectionBtn
+        $("#displayBtn").attr("class_id",$(thisObj).attr("value"));
+    });
+
+    
 }
 /**
- * Setzt alle vorhandenen Infos im Dom hinein
+ * TODO: Documnetation Eng
+ */
+function changeWeekClassListBack(){
+    $("#mainDisplayTbl").fadeOut();
+    $("#mainDisplayTbl").promise().done(function(){
+        var weekYear = $("#displayBtn").attr("woche");
+        var newWeekNum = weekYear.slice(5) -1;
+        // if(directionString == "back"){
+        //     newWeekNum = weekYear.slice(5) -1;
+        // }else{
+        //     newWeekNum = weekYear.slice(5) +1;
+        // }
+        var newYear = weekYear.slice(0,4);
+        //check it it is next year
+        if(newWeekNum == 0){
+            newWeekNum = 52;
+            newYear -= 1;
+        }
+        else if(newWeekNum > 52){
+            newWeekNum = 1;
+            newYear += 1;
+        }
+        console.log(newYear + "," + newWeekNum);
+        //set on btn value
+        $("#displayBtn").attr("woche",newYear + "," + newWeekNum);
+        $("#displayBtn").html(newWeekNum + " " +  newYear);
+        //set on cookie
+        Cookies.set("woche",newYear + "," + newWeekNum);
+        //go to ajax
+        console.log($("#displayBtn").attr("class_id"));
+        getClassPlan($("#displayBtn").attr("class_id"),false,newYear + "," + newWeekNum);
+    });
+    
+    
+}
+
+function changeWeekClassListForward(){
+
+        $("#mainDisplayTbl").fadeOut();
+        $("#mainDisplayTbl").promise().done(function(){
+            var weekYear = $("#displayBtn").attr("woche");
+            var newWeekNum = Number(weekYear.slice(5)) + 1;
+            // if(directionString == "back"){
+            //     newWeekNum = weekYear.slice(5) -1;
+            // }else{
+            //     newWeekNum = weekYear.slice(5) +1;
+            // }
+            console.log(newWeekNum);
+            var newYear = weekYear.slice(0,4);
+            //check it it is next year
+            if(newWeekNum == 0){
+                newWeekNum = 52;
+                newYear -= 1;
+            }
+            else if(newWeekNum > 52){
+                newWeekNum = 1;
+                newYear += 1;
+            }
+            console.log(newYear + "," + newWeekNum);
+            //set on btn value
+            $("#displayBtn").attr("woche",newYear + "," + newWeekNum);
+            $("#displayBtn").html(newWeekNum + " " +  newYear);
+            //set on cookie
+            Cookies.set("woche",newYear + "," + newWeekNum);
+            //go to ajax
+            console.log($("#displayBtn").attr("class_id"));
+            getClassPlan($("#displayBtn").attr("class_id"),false,newYear + "," + newWeekNum);
+        });
+}
+
+/**
+ * Manipulates the DOM with preexisting Cookies
  */
 function readCookies(){
 
@@ -119,11 +270,48 @@ function readCookies(){
     $("#ClassListCard").show();
     //set beruf_id
     getLaborClasses(Cookies.get("beruf_id"));
-    // if(Cookies.get() != undefined){
-
-
-        // if(Cookies.get() != undefined){
-
-    // }
-    // }
+     if(Cookies.get("klasse_id") != undefined){
+        getClassPlan(Cookies.get("klasse_id"),true);
+        
+         if(Cookies.get("woche") != undefined){
+            getClassPlan(Cookies.get("klasse_id"),false,Cookies.get("woche"));
+            $("#displayBtn").attr("woche",Cookies.get("woche"));
+     }
+     }
+}
+/**
+ * TODO: documentation ENG
+ * @param  {} num
+ * @returns
+ */
+function convertWeekNumToGerman(num){
+    var weekDay = "";
+switch (num) {
+   
+    case "0":
+    weekDay = "Sonntag";
+        break;
+    case "1":
+    weekDay = "Montag";
+        break;
+        case"2":
+        weekDay = "Dienstag";
+        break;
+        case "3":
+        weekDay = "Mittwoch";
+        break;
+        case "4":
+        weekDay = "Donnerstag";
+        break;
+        case "5":
+        weekDay = "Freitag";
+        break;
+        case "6":
+        weekDay = "Samstag";
+        break;
+    default:
+    weekDay = num;
+        break;
+}
+return weekDay;
 }
