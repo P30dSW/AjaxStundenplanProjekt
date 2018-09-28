@@ -67,15 +67,16 @@ function getClassPlan(classId,newWeek,weekYear = ""){
     }else{
         url = "http://sandbox.gibm.ch/tafel.php?klasse_id=" + classId;
     }
+    console.log(url);
     return $.ajax({
         url: url,
         dataType: "json",
         error: function(){ 
-         
+            console.log("err");
             ClassWeekToDOM( [null,null, "ERROR"]);
       },
       success: function(json){
-          
+          console.log("succ");
         ClassWeekToDOM( [json,newWeek,"SUCCESS"]);
       }
           });
@@ -86,6 +87,9 @@ function getClassPlan(classId,newWeek,weekYear = ""){
  * @param  {Object} listArray - Array of the Labors
  */
 function LaborListToDOM(listArray){
+    if(listArray[1] == "ERROR") {
+        alert("Es gibt ein fehler mit unseren Servern. Bitte versuchen Sie es Später");
+    }else{
     var loabors = listArray[0];
     $.each(loabors ,function(i){
         //console.log(loabors[i].beruf_name);
@@ -93,12 +97,15 @@ function LaborListToDOM(listArray){
 
        
     });
-}
+}}
 /**
  * Gets array of laborClasses and adds it to the dom
  * @param  {Object} classList - Array of the Classes
  */
 function LaborClassToDOM(classList){
+    if(classList[1] == "ERROR") {
+        alert("Es gibt ein fehler mit unseren Servern. Bitte versuchen Sie es Später");
+    }else{
     var loaborClasses = classList[0];
     
     $.each(loaborClasses ,function(i){
@@ -106,13 +113,16 @@ function LaborClassToDOM(classList){
         $("#LaborClassDropDownMenu").append(" <a class=\"dropdown-item addSelectionLaborClass\" value=\"" + loaborClasses[i].klasse_id + "\" >" +loaborClasses[i].klasse_longname + "</a>");
     });
     
-    
+}
 }
 /**
  * TODO: Documentation ENG
  * @param  {} weekObj
  */
 function ClassWeekToDOM(weekObj) {  
+    if(weekObj[2] == "ERROR") {
+        alert("Es gibt ein fehler mit unseren Servern. Bitte versuchen Sie es Später");
+    }else{
 var classWeek = weekObj[0];
 $("#ClassWeekTbl").html("");
 if(typeof classWeek !== 'undefined' && classWeek.length > 0){
@@ -143,6 +153,7 @@ if(weekObj[1] == true){
 }
 //fadeIn if it isnt already visible
 $("#mainDisplayTbl").fadeIn();
+    }
 }
 
 /**
@@ -170,6 +181,8 @@ function changeDropDownSelectionLaborList(){
  */
 function changeDropDownSelectionLaborClass(){
     var thisObj = this;
+    //resets the cookie
+    Cookies.remove("woche");
     //Fades Class list if already visible
     $("#ClassWeekCard").fadeOut();
     //only proceed if the card if faced out
@@ -182,6 +195,7 @@ function changeDropDownSelectionLaborClass(){
         $("#LaborClassdropDownBtn").html($(thisObj).text());
         //Handling Cookies
         Cookies.set("klasse_id",$(thisObj).attr("value"));
+        Cookies.set("klasse_name",$(thisObj).text());
         getClassPlan($(thisObj).attr("value"),true);
         //saves classid at WeekSelectionBtn
         $("#displayBtn").attr("class_id",$(thisObj).attr("value"));
@@ -196,12 +210,7 @@ function changeWeekClassListBack(){
     $("#mainDisplayTbl").fadeOut();
     $("#mainDisplayTbl").promise().done(function(){
         var weekYear = $("#displayBtn").attr("woche");
-        var newWeekNum = weekYear.slice(5) -1;
-        // if(directionString == "back"){
-        //     newWeekNum = weekYear.slice(5) -1;
-        // }else{
-        //     newWeekNum = weekYear.slice(5) +1;
-        // }
+        var newWeekNum = Number(weekYear.slice(5)) - 1;
         var newYear = weekYear.slice(0,4);
         //check it it is next year
         if(newWeekNum == 0){
@@ -219,8 +228,14 @@ function changeWeekClassListBack(){
         //set on cookie
         Cookies.set("woche",newYear + "," + newWeekNum);
         //go to ajax
-        console.log($("#displayBtn").attr("class_id"));
-        getClassPlan($("#displayBtn").attr("class_id"),false,newYear + "," + newWeekNum);
+        if($("#displayBtn").attr("class_id") != undefined){
+            getClassPlan($("#displayBtn").attr("class_id"),false,newYear + "," + newWeekNum);
+
+        }else if(Cookies.get("klasse_id") != undefined){
+            console.log("here!");
+            getClassPlan(Cookies.get("klasse_id"),false,newYear + "," + newWeekNum);
+
+        }
     });
     
     
@@ -228,36 +243,36 @@ function changeWeekClassListBack(){
 
 function changeWeekClassListForward(){
 
-        $("#mainDisplayTbl").fadeOut();
-        $("#mainDisplayTbl").promise().done(function(){
-            var weekYear = $("#displayBtn").attr("woche");
-            var newWeekNum = Number(weekYear.slice(5)) + 1;
-            // if(directionString == "back"){
-            //     newWeekNum = weekYear.slice(5) -1;
-            // }else{
-            //     newWeekNum = weekYear.slice(5) +1;
-            // }
-            console.log(newWeekNum);
-            var newYear = weekYear.slice(0,4);
-            //check it it is next year
-            if(newWeekNum == 0){
-                newWeekNum = 52;
-                newYear -= 1;
-            }
-            else if(newWeekNum > 52){
-                newWeekNum = 1;
-                newYear += 1;
-            }
-            console.log(newYear + "," + newWeekNum);
-            //set on btn value
-            $("#displayBtn").attr("woche",newYear + "," + newWeekNum);
-            $("#displayBtn").html(newWeekNum + " " +  newYear);
-            //set on cookie
-            Cookies.set("woche",newYear + "," + newWeekNum);
-            //go to ajax
-            console.log($("#displayBtn").attr("class_id"));
+    $("#mainDisplayTbl").fadeOut();
+    $("#mainDisplayTbl").promise().done(function(){
+        var weekYear = $("#displayBtn").attr("woche");
+        var newWeekNum = Number(weekYear.slice(5)) + 1;
+        var newYear = weekYear.slice(0,4);
+        //check it it is next year
+        if(newWeekNum == 0){
+            newWeekNum = 52;
+            newYear -= 1;
+        }
+        else if(newWeekNum > 52){
+            newWeekNum = 1;
+            newYear += 1;
+        }
+        console.log(newYear + "," + newWeekNum);
+        //set on btn value
+        $("#displayBtn").attr("woche",newYear + "," + newWeekNum);
+        $("#displayBtn").html(newWeekNum + " " +  newYear);
+        //set on cookie
+        Cookies.set("woche",newYear + "," + newWeekNum);
+        //go to ajax
+        if($("#displayBtn").attr("class_id") != undefined){
             getClassPlan($("#displayBtn").attr("class_id"),false,newYear + "," + newWeekNum);
-        });
+
+        }else if(Cookies.get("klasse_id") != undefined){
+            console.log("here!");
+            getClassPlan(Cookies.get("klasse_id"),false,newYear + "," + newWeekNum);
+
+        }
+    });
 }
 
 /**
@@ -271,11 +286,19 @@ function readCookies(){
     //set beruf_id
     getLaborClasses(Cookies.get("beruf_id"));
      if(Cookies.get("klasse_id") != undefined){
-        getClassPlan(Cookies.get("klasse_id"),true);
+        if(Cookies.get("klasse_name") != undefined){
+            $("#LaborClassdropDownBtn").html(Cookies.get("klasse_name"));
+        }
         
+        $("#ClassWeekCard").fadeIn();
          if(Cookies.get("woche") != undefined){
+             
             getClassPlan(Cookies.get("klasse_id"),false,Cookies.get("woche"));
             $("#displayBtn").attr("woche",Cookies.get("woche"));
+            var yearWeek = Cookies.get("woche");
+            $("#displayBtn").html(yearWeek.slice(5) + " "+ yearWeek.slice(0,4));
+     }else{
+        getClassPlan(Cookies.get("klasse_id"),true);
      }
      }
 }
