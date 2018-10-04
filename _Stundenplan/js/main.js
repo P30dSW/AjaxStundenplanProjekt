@@ -122,7 +122,7 @@ function LaborListToDOM(listArray){
     }else{
     var loabors = listArray[0];
     $("#LaborClassDropDownMenu").html("");
-    $("#LaborListDropDownMenu").append("<option value=\"\" selected disabled>Bitte Selektieren</option>");
+    $("#LaborListDropDownMenu").append("<option hidden selected disabled>Bitte Selektieren</option>");
     $.each(loabors ,function(i){
         $("#LaborListDropDownMenu").append(" <option  value=\"" + loabors[i].beruf_id + "\" >" +loabors[i].beruf_name + "</option>");
         
@@ -140,7 +140,7 @@ function LaborClassToDOM(classList){
     }else{
     var loaborClasses = classList[0];
     $("#LaborClassDropDownMenu").html("");
-    $("#LaborClassDropDownMenu").append("<option value=\"\" selected disabled>Bitte Selektieren</option>");
+    $("#LaborClassDropDownMenu").append("<option hidden selected disabled>Bitte Selektieren</option>");
     $.each(loaborClasses ,function(i){
         $("#LaborClassDropDownMenu").append(" <option  value=\"" + loaborClasses[i].klasse_id + "\" >" +loaborClasses[i].klasse_longname + "</option>");
     });
