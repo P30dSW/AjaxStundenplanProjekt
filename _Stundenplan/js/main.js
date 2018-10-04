@@ -319,7 +319,7 @@ function readCookies(){
     if($('option[value=' + Cookies.get("beruf_name") + ']').length()){
         $('option[value=' + Cookies.get("beruf_name") + ']').attr('selected',true);
     }else{
-$("#LaborListDropDownMenu").html("<option  value=\"\" >" +Cookies.get("beruf_name")+ "</option>");
+$("#LaborListDropDownMenu").html("<option  hidden >" +Cookies.get("beruf_name")+ "</option>");
 $('option[value=' + Cookies.get("beruf_name") + ']').attr('selected',true);
     }
     $("#ClassListCard").show();
@@ -331,7 +331,7 @@ $('option[value=' + Cookies.get("beruf_name") + ']').attr('selected',true);
         if($('option[value=' + Cookies.get("klasse_name") + ']').length()){
             $('option[value=' + Cookies.get("klasse_name") + ']').attr('selected',true);
         }else{
-            $("#LaborClassDropDownMenu").html("<option  value=\"\" >" +Cookies.get("klasse_name")+ "</option>");
+            $("#LaborClassDropDownMenu").html("<option  hidden >" +Cookies.get("klasse_name")+ "</option>");
             $('option[value=' + Cookies.get("klasse_name") + ']').attr('selected',true);
         }
         }
