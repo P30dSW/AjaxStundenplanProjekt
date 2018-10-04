@@ -1,0 +1,76 @@
+<!DOCTYPE html> 
+<html lang="de"> 
+<head> 
+    <meta charset="utf-8" /> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+    <title>Stundenplan</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <link rel="stylesheet" type="text/css" href="css/main.css"> 
+    <script 
+  src="https://code.jquery.com/jquery-3.3.1.min.js" 
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" 
+  crossorigin="anonymous"></script> 
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script> 
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> 
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script> 
+<script src="js/getWeek.js"></script> 
+  <script src="js/main.js"></script> 
+</head> 
+<body> 
+    <div class="container"> 
+        <h1 class="center text-center">Stundenplan</h1> 
+        <div class="card mt-2 md-2 m-3"> 
+        <div class="card-body" > 
+
+              <!-- selector -->
+              <select id="LaborListDropDownMenu" class="form-control form-control-lg">
+                
+              </select>
+        </div> 
+      </div> 
+      <!-- TODO: Style in eingener CSS File --> 
+      <div class="card mt-2 md-2 m-3 hiddenCards" id="ClassListCard"> 
+        <div class="card-body" > 
+          <select id="LaborClassDropDownMenu" class="form-control form-control-lg">
+            
+          </select>  
+      </div> 
+    </div> 
+      <div class="card m-3 hiddenCards" id="ClassWeekCard" > 
+        <div class="card-body" > 
+          
+          <div class="btn-group d-flex justify-content-center" role="group" > 
+            <button id="weekBackwardsBtn" type="button" class="btn btn-secondary">⇐</button> 
+            <button id="displayBtn" type="button" class="btn btn-default" disabled></button> 
+            <button id="weekForwardsBtn" type="button" class="btn btn-secondary">⇒</button> 
+          
+      </div>
+          <div class="table-responsive-sm"> 
+          <table id="mainDisplayTbl" class="table"> 
+            <thead>
+              <tr> 
+                <th scope="col">Datum</th> 
+                <th scope="col">Wochentag</th> 
+                <th scope="col">Von</th> 
+                <th scope="col">Bis</th> 
+              <th scope="col">Lehrer</th> 
+              <th scope="col">Fach</th> 
+              <th scope="col">Raum</th> 
+              </tr> 
+            </thead> 
+            <tbody id="ClassWeekTbl">
+              <!-- <tr> 
+                 <td>1</td> 
+                 <td>2</td> 
+                 <td>3</td> 
+               </tr> -->
+             </tbody>
+           </table>
+          </div>
+        </div>
+      
+    </div>
+    
+</body>
+</html>
