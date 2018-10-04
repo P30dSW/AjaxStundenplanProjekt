@@ -121,6 +121,7 @@ function LaborListToDOM(listArray){
         alert("Es gibt ein fehler mit unseren Servern. Bitte versuchen Sie es Später");
     }else{
     var loabors = listArray[0];
+    $("#LaborClassDropDownMenu").html("");
     $("#LaborListDropDownMenu").append("<option value=\"\" selected disabled>Bitte Selektieren</option>");
     $.each(loabors ,function(i){
         $("#LaborListDropDownMenu").append(" <option  value=\"" + loabors[i].beruf_id + "\" >" +loabors[i].beruf_name + "</option>");
@@ -138,6 +139,7 @@ function LaborClassToDOM(classList){
         alert("Es gibt ein fehler mit unseren Servern. Bitte versuchen Sie es Später");
     }else{
     var loaborClasses = classList[0];
+    $("#LaborClassDropDownMenu").html("");
     $("#LaborClassDropDownMenu").append("<option value=\"\" selected disabled>Bitte Selektieren</option>");
     $.each(loaborClasses ,function(i){
         $("#LaborClassDropDownMenu").append(" <option  value=\"" + loaborClasses[i].klasse_id + "\" >" +loaborClasses[i].klasse_longname + "</option>");
@@ -314,16 +316,24 @@ function changeWeekClassListForward(){
  * @see {@link https://github.com/js-cookie/js-cookie}
  */
 function readCookies(){
-
-    $('option[value=' + Cookies.get("beruf_name") + ']')
-        .attr('selected',true);
+    if($('option[value=' + Cookies.get("beruf_name") + ']').length()){
+        $('option[value=' + Cookies.get("beruf_name") + ']').attr('selected',true);
+    }else{
+$("#LaborListDropDownMenu").html("<option  value=\"\" >" +Cookies.get("beruf_name")+ "</option>");
+$('option[value=' + Cookies.get("beruf_name") + ']').attr('selected',true);
+    }
     $("#ClassListCard").show();
     //set beruf_id
     getLaborClasses(Cookies.get("beruf_id"));
      if(Cookies.get("klasse_id") != undefined){
         if(Cookies.get("klasse_name") != undefined){
-            $('option[value=' + Cookies.get("klasse_name") + ']')
-        .attr('selected',true);
+            
+        if($('option[value=' + Cookies.get("klasse_name") + ']').length()){
+            $('option[value=' + Cookies.get("klasse_name") + ']').attr('selected',true);
+        }else{
+            $("#LaborClassDropDownMenu").html("<option  value=\"\" >" +Cookies.get("klasse_name")+ "</option>");
+            $('option[value=' + Cookies.get("klasse_name") + ']').attr('selected',true);
+        }
         }
         $("#ClassWeekCard").fadeIn();
          if(Cookies.get("woche") != undefined){
