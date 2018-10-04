@@ -189,7 +189,6 @@ $("#mainDisplayTbl").fadeIn();
 
 /**
  * fills the class selection by the current labor
- * @event
  * @see getLaborClasses
  */
 function changeDropDownSelectionLaborList(){
@@ -211,7 +210,6 @@ function changeDropDownSelectionLaborList(){
 }
 /**
  * Fills the week display with the class calendar. Uses getClassPlan
- * @event
  * @see getClassPlan
  */
 function changeDropDownSelectionLaborClass(){
@@ -240,7 +238,6 @@ function changeDropDownSelectionLaborClass(){
 }
 /**
  * Event function for setting the class week one week backward
- * @event
  */
 function changeWeekClassListBack(){
     $("#mainDisplayTbl").fadeOut();
@@ -276,7 +273,6 @@ function changeWeekClassListBack(){
 }
 /**
  * Event function for setting the class week one week forward
- * @event
  */
 function changeWeekClassListForward(){
 
