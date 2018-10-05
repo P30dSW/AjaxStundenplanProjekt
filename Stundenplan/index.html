@@ -22,38 +22,30 @@
         <h1 class="center text-center">Stundenplan</h1> 
         <div class="card mt-2 md-2 m-3"> 
         <div class="card-body" > 
-            <div class="dropdown offset-1"> 
-                <button id="LaborListdropDownBtn" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
-                  
-                </button> 
-                <div id="LaborListDropDownMenu" class="dropdown-menu" > 
-                   
-                   
-                </div> 
-              </div> 
+
+              <!-- selector -->
+              <select id="LaborListDropDownMenu" class="form-control form-control-lg">
+                
+              </select>
         </div> 
       </div> 
       <!-- TODO: Style in eingener CSS File --> 
-      <div class="card m-3 hiddenCards" id="ClassListCard"> 
+      <div class="card mt-2 md-2 m-3 hiddenCards" id="ClassListCard"> 
         <div class="card-body" > 
-          <div class="dropdown offset-1"> 
-            <button id="LaborClassdropDownBtn" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
-              
-            </button> 
-            <div id="LaborClassDropDownMenu" class="dropdown-menu" > 
-               
-               
-            </div> 
-          </div>   
-        </div> 
+          <select id="LaborClassDropDownMenu" class="form-control form-control-lg">
+            
+          </select>  
       </div> 
+    </div> 
       <div class="card m-3 hiddenCards" id="ClassWeekCard" > 
         <div class="card-body" > 
-          <div class="btn-group offset-5" role="group" > 
+          
+          <div class="btn-group d-flex justify-content-center" role="group" > 
             <button id="weekBackwardsBtn" type="button" class="btn btn-secondary">⇐</button> 
             <button id="displayBtn" type="button" class="btn btn-default" disabled></button> 
             <button id="weekForwardsBtn" type="button" class="btn btn-secondary">⇒</button> 
-          </div> 
+          
+      </div>
           <div class="table-responsive-sm"> 
           <table id="mainDisplayTbl" class="table"> 
             <thead>
@@ -77,7 +69,7 @@
            </table>
           </div>
         </div>
-      </div>
+      
     </div>
     
 </body>

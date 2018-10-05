@@ -1,3 +1,9 @@
+/**
+ * Gets the Weeknumber inside a year
+ * NOTE: This is a external library and wasn't created by me
+ * @see {@link https://jsfiddle.net/pegla/ytmayemr/} Original
+ * @param  {Date} d - Date Object
+ */
 function getWeekNumber(d) {
   // Copy date so don't modify original
   d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
