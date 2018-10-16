@@ -26,23 +26,57 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>$(document).ready(function(){
-    //TODO: cookie check
+            <pre class="prettyprint source linenums"><code>
+/**
+ * This Document has been Documented with JSDoc: https://github.com/jsdoc3/jsdoc
+ * @author Pedro dSW.
+ */
 
+/**************************************************************** CUSTOM OBJECT DESCRIPTION  ****************************************************************/
+/**
+            @typedef AJAX_Result
+            @type {Object}
+            @property {Object} resultObj - Object of The result. If the was a server error then it is null
+            @property {string} serverResponse - Response of the server. SUCCESS or ERROR
+ * 
+ */
+/**
+            @typedef AJAX_Week_Result
+            @type {Object}
+            @property {Object} resultObj - Object of The result. If the was a server error then it is null
+            @property {boolean} newWeek - true: creates a new date for the calculation of the WeekNumber in the year 
+            @property {string} serverResponse - Response of the server. SUCCESS or ERROR
+ * 
+ */
+
+
+/**************************************************************** DOM LOADING METHODS AND EVENTS  ****************************************************************/
+$(document).ready(function(){
+    
+    //getLaborList(function(){});
+    getLaborList();
     if(Cookies.get("beruf_id") != undefined){
-        //console.log("dsffds");
         readCookies();
     }
-    getLaborList();
-    $(document).on("click",".addSelectionLaborList",changeDropDownSelectionLaborList);
-    $(document).on("click",".addSelectionLaborClass",changeDropDownSelectionLaborClass);
+    
+    $(document).on("change","#LaborListDropDownMenu",changeDropDownSelectionLaborList);
+    $(document).on("change","#LaborClassDropDownMenu",changeDropDownSelectionLaborClass);
+    //TODO: week forwards (woche wird im cookie gespeichert)
+    $("#weekForwardsBtn").on("click",changeWeekClassListForward);
+    //TODO: week backwards(woche wird im cookie gespeichert)
+    $("#weekBackwardsBtn").on("click",changeWeekClassListBack);
+    
 });
+
+/**************************************************************** AJAX FUNCTIONS  ****************************************************************/
+
 /**
- * Return the LaborList as Object
+ * AJAX FUNCTION: Return the LaborList as Object
+ * @async
  * @returns Ajax Object of the Function
  */
 function getLaborList(){
-
+    //(_con)
     return $.ajax({
   url: "http://sandbox.gibm.ch/berufe.php",
   dataType: "json",
@@ -55,11 +89,12 @@ success: function(json){
     LaborListToDOM( [json,"SUCCESS"]);
 }
     });
-    
+    //_con();
 }
 
 /**
- * gives out a classList from a laborId
+ *  AJAX FUNCTION: gives out a classList from a laborId
+ * @async
  * @param  {string} laborId - Id of a selected Labor
  * @returns Ajax Object of the Function
  */
@@ -79,81 +114,322 @@ function getLaborClasses(laborId){
           });
 }
 /**
- * gives back classPlan from classID
+ *  AJAX FUNCTION: gives back classPlan from classID
+ * @async
  * @param  {string} classId - ID of selected Class
- * @returns Array of classplans and State of Connection
+ * @param  {string} weekYear - string of the week and year in format ww-yyyy, Def: ""
+ * @returns Ajax Object of the Function
  */
-function getClassPlan(classId){
-
-    return classPlans;
+function getClassPlan(classId,newWeek,weekYear = ""){
+    var url = "";
+    if( weekYear != ""){
+        url = "http://sandbox.gibm.ch/tafel.php?klasse_id=" + classId + "&amp;woche=" +weekYear.slice(5) + "-" + weekYear.slice(0,4);
+    }else{
+        url = "http://sandbox.gibm.ch/tafel.php?klasse_id=" + classId;
+    }
+    return $.ajax({
+        url: url,
+        dataType: "json",
+        error: function(){ 
+            ClassWeekToDOM( [null,null, "ERROR"]);
+      },
+      success: function(json){
+        ClassWeekToDOM( [json,newWeek,"SUCCESS"]);
+      }
+          });
 }
+
+/**************************************************************** DOM MANIPULATION FUNCTIONS  ****************************************************************/
 
 /**
  * Gets array of labors and adds it to the dom
- * @param  {Object} listArray - Array of the Labors
+ * --DOM manipulating function--
+ * @param  {AJAX_Result} listArray - ArrayObj of the AJAX Result
  */
 function LaborListToDOM(listArray){
+    if(listArray[1] == "ERROR") {
+        alert("Es gibt ein fehler mit unseren Servern. Bitte versuchen Sie es Später");
+    }else{
     var loabors = listArray[0];
-    $.each(loabors ,function(i){
-        //console.log(loabors[i].beruf_name);
-        $("#LaborListDropDownMenu").append(" &lt;a class=\"dropdown-item addSelectionLaborList\" value=\"" + loabors[i].beruf_id + "\" >" +loabors[i].beruf_name + "&lt;/a>");
+    $("#LaborClassDropDownMenu").html("");
+    if(Cookies.get("beruf_id") != undefined){
+    if($('option[value=' + Cookies.get("beruf_id") + ']').length){
+        $("#LaborListDropDownMenu").val(Cookies.get("beruf_id"));
+    }else{
+$("#LaborListDropDownMenu").html("&lt;option value=\"preSelect_1\"  hidden >" +Cookies.get("beruf_name")+ "&lt;/option>");
+$('option[value=preSelect_1]').attr('selected','selected');
 
-       
+    }}else{
+        $("#LaborListDropDownMenu").append("&lt;option hidden selected disabled>Bitte Selektieren&lt;/option>");
+    }
+    
+    $.each(loabors ,function(i){
+        $("#LaborListDropDownMenu").append(" &lt;option  value=\"" + loabors[i].beruf_id + "\" >" +loabors[i].beruf_name + "&lt;/option>");
     });
-}
+}}
 /**
  * Gets array of laborClasses and adds it to the dom
- * @param  {Object} classList - Array of the Classes
+ * --DOM manipulating function--
+ * @param  {AJAX_Result} classList - ArrayObj of the AJAX result 
  */
 function LaborClassToDOM(classList){
+    if(classList[1] == "ERROR") {
+        alert("Es gibt ein fehler mit unseren Servern. Bitte versuchen Sie es Später");
+    }else{
     var loaborClasses = classList[0];
     
+    if(Cookies.get("klasse_id") != undefined){
+        if(Cookies.get("klasse_name") != undefined){
+            
+        if($('option[value=' + Cookies.get("klasse_id") + ']').length){
+            $('#LaborClassDropDownMenu').val(Cookies.get("klasse_id"));
+        }else{
+            $("#LaborClassDropDownMenu").html("&lt;option value=\"preSelect_2\" hidden >" +Cookies.get("klasse_name")+ "&lt;/option>");
+            $('option[value=preSelect_2]').attr('selected','selected');
+        }
+    }
+}else{
+     $("#LaborClassDropDownMenu").append("&lt;option hidden selected disabled>Bitte Selektieren&lt;/option>");
+}
     $.each(loaborClasses ,function(i){
-        console.log(loaborClasses[i]);
-        $("#LaborClassDropDownMenu").append(" &lt;a class=\"dropdown-item addSelectionLaborClass\" value=\"" + loaborClasses[i].klasse_id + "\" >" +loaborClasses[i].klasse_longname + "&lt;/a>");
+        $("#LaborClassDropDownMenu").append(" &lt;option  value=\"" + loaborClasses[i].klasse_id + "\" >" +loaborClasses[i].klasse_longname + "&lt;/option>");
     });
+    
+}
 }
 /**
- * TODO: Documentation ENG
+ * Sets the class week display by the selected Class
+ * --DOM manipulating function--
+ * @param  {AJAX_Week_Result} weekObj - Arrayobject of the AJAX result
+ * @see getWeekNumber
+ */
+function ClassWeekToDOM(weekObj) {  
+    if(weekObj[2] == "ERROR") {
+        alert("Es gibt ein fehler mit unseren Servern. Bitte versuchen Sie es Später");
+    }else{
+var classWeek = weekObj[0];
+$("#ClassWeekTbl").html("");
+if(typeof classWeek !== 'undefined' &amp;&amp; classWeek.length > 0){
+    $.each(classWeek ,function(i){
+        // column order: Datum,Wochentag,Von,Bis,Lehrer,Fach,Raum
+        $("#ClassWeekTbl").append("&lt;tr>" +
+        "&lt;td>" +classWeek[i].tafel_datum + "&lt;/td>" +
+        "&lt;td>" +convertWeekNumToGerman(classWeek[i].tafel_wochentag) + "&lt;/td>" +
+        "&lt;td>" +classWeek[i].tafel_von + "&lt;/td>" +
+        "&lt;td>" +classWeek[i].tafel_bis + "&lt;/td>" +
+        "&lt;td>" +classWeek[i].tafel_lehrer + "&lt;/td>" +
+        "&lt;td>" +classWeek[i].tafel_fach + "&lt;/td>" +
+        "&lt;td>" +classWeek[i].tafel_raum + "&lt;/td>" 
+        + "&lt;/tr>" );
+    });
+}else{
+    $("#ClassWeekTbl").append("&lt;tr>&lt;td colspan=\"7\" class=\" text-center \">Schulfreie Zeit&lt;/td>&lt;/tr>");
+}
+
+if(weekObj[1] == true){
+    
+    var weekYear = getWeekNumber(new Date());
+
+    $("#displayBtn").html(weekYear[1] + " " +  weekYear[0]);
+    //attribute week
+    $("#displayBtn").attr("woche",weekYear);
+}
+//fadeIn if it isnt already visible
+$("#mainDisplayTbl").fadeIn();
+    }
+}
+
+/**************************************************************** EVENT LISTENER FUNCTIONS  ****************************************************************/
+
+/**
+ * fills the class selection by the current labor
+ * @see getLaborClasses
  */
 function changeDropDownSelectionLaborList(){
+    //removing unneeded cookies
+    Cookies.remove("klasse_id");
+    Cookies.remove("klasse_name");
+    Cookies.remove("woche");
     //TODO: coockie check
+    var objId = $(this).attr("id");
     $("#LaborClassdropDownBtn").text("");
     $("#LaborClassDropDownMenu").html("");
+    //Fades Class list if already visible
     $("#ClassListCard").fadeOut();
+    $("#ClassWeekCard").fadeOut();
     //html sorgt dafür, dass der alte eintrag gelöscht wird
-    $("#LaborListdropDownBtn").html($(this).text());
-    
     $("#ClassListCard").fadeIn(1000);
-    Cookies.set("beruf_id",$(this).attr("value"));
-    Cookies.set("beruf_name",$(this).text());
-    //console.log(Cookies.get());
-    //set beruf_id
-    getLaborClasses($(this).attr("value"));
+    //Handling Cookies
+    Cookies.set("beruf_id",$("#" + objId + " option:selected").attr("value"));
+    Cookies.set("beruf_name",$("#" + objId + " option:selected").text());
+    getLaborClasses($("#" + objId + " option:selected").attr("value"));
 }
 /**
- * TODO: Documentation ENG
+ * Fills the week display with the class calendar. Uses getClassPlan
+ * @see getClassPlan
  */
 function changeDropDownSelectionLaborClass(){
-    $("#LaborClassdropDownBtn").html($(this).text());
+    //removeing unneeded cookies
+    Cookies.remove("woche");
+
+    var thisObjId = $(this).attr("id");
+    //resets the cookie
+    Cookies.remove("woche");
+    //Fades Class list if already visible
+    $("#ClassWeekCard").fadeOut();
+    //only proceed if the card if faced out
+    $("#ClassWeekCard").promise().done(function(){
+        $("#displayBtn").text("");
+        $("#ClassWeekTbl").html("");
+        //setting Table data
+        //fades in 
+        $("#ClassWeekCard").fadeIn(1000);
+        $("#LaborClassdropDownBtn").html($("#" + thisObjId + " option:selected").text());
+        //Handling Cookies
+        Cookies.set("klasse_id",$("#" + thisObjId + " option:selected").attr("value"));
+        Cookies.set("klasse_name",$("#" + thisObjId + " option:selected").text());
+        getClassPlan($("#" + thisObjId + " option:selected").attr("value"),true);
+        //saves classid at WeekSelectionBtn
+        $("#displayBtn").attr("class_id",$("#" + thisObjId + " option:selected").attr("value"));
+    });
+
+    
 }
 /**
- * Setzt alle vorhandenen Infos im Dom hinein
+ * Event function for setting the class week one week backward
+ */
+function changeWeekClassListBack(){
+    $("#mainDisplayTbl").fadeOut();
+    $("#mainDisplayTbl").promise().done(function(){
+        var weekYear = $("#displayBtn").attr("woche");
+        var newWeekNum = Number(weekYear.slice(5)) - 1;
+        var newYear = weekYear.slice(0,4);
+        //check if it is a new year
+        if(newWeekNum == 0){
+            newWeekNum = 52;
+            newYear -= 1;
+        }
+        else if(newWeekNum > 52){
+            newWeekNum = 1;
+            newYear += 1;
+        }
+        //set on btn value
+        $("#displayBtn").attr("woche",newYear + "," + newWeekNum);
+        $("#displayBtn").html(newWeekNum + " " +  newYear);
+        //set on cookie
+        Cookies.set("woche",newYear + "," + newWeekNum);
+        //go to ajax
+        if($("#displayBtn").attr("class_id") != undefined){
+            getClassPlan($("#displayBtn").attr("class_id"),false,newYear + "," + newWeekNum);
+
+        }else if(Cookies.get("klasse_id") != undefined){
+            getClassPlan(Cookies.get("klasse_id"),false,newYear + "," + newWeekNum);
+
+        }
+    });
+    
+    
+}
+/**
+ * Event function for setting the class week one week forward
+ */
+function changeWeekClassListForward(){
+
+    $("#mainDisplayTbl").fadeOut();
+    $("#mainDisplayTbl").promise().done(function(){
+        var weekYear = $("#displayBtn").attr("woche");
+        var newWeekNum = Number(weekYear.slice(5)) + 1;
+        var newYear = weekYear.slice(0,4);
+        //check if it is a new year
+        if(newWeekNum == 0){
+            newWeekNum = 52;
+            newYear -= 1;
+        }
+        else if(newWeekNum > 52){
+            newWeekNum = 1;
+            newYear += 1;
+        }
+        //set on btn value
+        $("#displayBtn").attr("woche",newYear + "," + newWeekNum);
+        $("#displayBtn").html(newWeekNum + " " +  newYear);
+        //set on cookie
+        Cookies.set("woche",newYear + "," + newWeekNum);
+        //go to ajax
+        if($("#displayBtn").attr("class_id") != undefined){
+            getClassPlan($("#displayBtn").attr("class_id"),false,newYear + "," + newWeekNum);
+
+        }else if(Cookies.get("klasse_id") != undefined){
+            getClassPlan(Cookies.get("klasse_id"),false,newYear + "," + newWeekNum);
+
+        }
+    });
+}
+
+/**************************************************************** EXTERNAL LIBRARIES AND PROCESSING FUNCTIONS  ****************************************************************/
+
+/**
+ * Manipulates the DOM with preexisting Cookies
+ * @see {@link https://github.com/js-cookie/js-cookie}
  */
 function readCookies(){
-
-    $("#LaborListdropDownBtn").html(Cookies.get("beruf_name"));
-    //console.log(Cookies.get("beruf_name"));
+    
     $("#ClassListCard").show();
     //set beruf_id
     getLaborClasses(Cookies.get("beruf_id"));
-    // if(Cookies.get() != undefined){
+     if(Cookies.get("klasse_id") != undefined){
+        //contains class, Table can fade in
+        $("#ClassWeekCard").fadeIn();
+         if(Cookies.get("woche") != undefined){
+            getClassPlan(Cookies.get("klasse_id"),false,Cookies.get("woche"));
+            $("#displayBtn").attr("woche",Cookies.get("woche"));
+            var yearWeek = Cookies.get("woche");
+            $("#displayBtn").html(yearWeek.slice(5) + " "+ yearWeek.slice(0,4));
+     }else{
+        getClassPlan(Cookies.get("klasse_id"),true);
+     }
+     }
+}
 
-
-        // if(Cookies.get() != undefined){
-
-    // }
-    // }
+/**
+ * Converts a weekday number to a string in german
+ * @example
+ * //returns Montag
+ * convertWeekNumToGerman(1);
+ * @example 
+ * //returns NOT_VALID_NUMBER
+ * convertWeekNumToGerman(7);
+ * @param  {number} num - number of the Weekday 0-sunday 6-saturday
+ * @returns string of the Weekday in german
+ */
+function convertWeekNumToGerman(num){
+    var weekDay = "";
+switch (num) {
+    case "0":
+    weekDay = "Sonntag";
+        break;
+    case "1":
+    weekDay = "Montag";
+        break;
+        case"2":
+        weekDay = "Dienstag";
+        break;
+        case "3":
+        weekDay = "Mittwoch";
+        break;
+        case "4":
+        weekDay = "Donnerstag";
+        break;
+        case "5":
+        weekDay = "Freitag";
+        break;
+        case "6":
+        weekDay = "Samstag";
+        break;
+    default:
+    weekDay = "NOT_VALID_NUMBER";
+        break;
+}
+return weekDay;
 }
 </code></pre>
         </article>
@@ -165,13 +441,13 @@ function readCookies(){
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#changeDropDownSelectionLaborClass">changeDropDownSelectionLaborClass</a></li><li><a href="global.html#changeDropDownSelectionLaborList">changeDropDownSelectionLaborList</a></li><li><a href="global.html#getClassPlan">getClassPlan</a></li><li><a href="global.html#getLaborClasses">getLaborClasses</a></li><li><a href="global.html#getLaborList">getLaborList</a></li><li><a href="global.html#LaborClassToDOM">LaborClassToDOM</a></li><li><a href="global.html#LaborListToDOM">LaborListToDOM</a></li><li><a href="global.html#readCookies">readCookies</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#changeDropDownSelectionLaborClass">changeDropDownSelectionLaborClass</a></li><li><a href="global.html#changeDropDownSelectionLaborList">changeDropDownSelectionLaborList</a></li><li><a href="global.html#changeWeekClassListBack">changeWeekClassListBack</a></li><li><a href="global.html#changeWeekClassListForward">changeWeekClassListForward</a></li><li><a href="global.html#ClassWeekToDOM">ClassWeekToDOM</a></li><li><a href="global.html#convertWeekNumToGerman">convertWeekNumToGerman</a></li><li><a href="global.html#getClassPlan">getClassPlan</a></li><li><a href="global.html#getLaborClasses">getLaborClasses</a></li><li><a href="global.html#getLaborList">getLaborList</a></li><li><a href="global.html#getWeekNumber">getWeekNumber</a></li><li><a href="global.html#LaborClassToDOM">LaborClassToDOM</a></li><li><a href="global.html#LaborListToDOM">LaborListToDOM</a></li><li><a href="global.html#readCookies">readCookies</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Sep 27 2018 22:37:27 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Oct 16 2018 13:08:25 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -13,29 +13,22 @@
         <h1 class="center text-center">Stundenplan</h1> 
         <div class="card mt-2 md-2 m-3"> 
         <div class="card-body" > 
-
-              <!-- selector -->
               <select id="LaborListDropDownMenu" class="form-control form-control-lg">
-                
               </select>
         </div> 
       </div> 
-      <!-- TODO: Style in eingener CSS File --> 
       <div class="card mt-2 md-2 m-3 hiddenCards" id="ClassListCard"> 
         <div class="card-body" > 
           <select id="LaborClassDropDownMenu" class="form-control form-control-lg">
-            
           </select>  
       </div> 
     </div> 
       <div class="card m-3 hiddenCards" id="ClassWeekCard" > 
         <div class="card-body" > 
-          
           <div class="btn-group d-flex justify-content-center" role="group" > 
             <button id="weekBackwardsBtn" type="button" class="btn btn-secondary">⇐</button> 
             <button id="displayBtn" type="button" class="btn btn-default" disabled></button> 
             <button id="weekForwardsBtn" type="button" class="btn btn-secondary">⇒</button> 
-          
       </div>
           <div class="table-responsive-sm"> 
           <table id="mainDisplayTbl" class="table"> 
@@ -51,16 +44,10 @@
               </tr> 
             </thead> 
             <tbody id="ClassWeekTbl">
-              <!-- <tr> 
-                 <td>1</td> 
-                 <td>2</td> 
-                 <td>3</td> 
-               </tr> -->
              </tbody>
            </table>
           </div>
         </div>
-      
     </div>
     <script 
   src="https://code.jquery.com/jquery-3.3.1.min.js" 
@@ -71,5 +58,6 @@
         <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script> 
 <script src="js/getWeek.js"></script> 
   <script src="js/main.js"></script> 
+  </div>  
 </body>
 </html>

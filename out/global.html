@@ -112,7 +112,7 @@
 
 
 <div class="description">
-    TODO: Documentation ENG
+    Fills the week display with the class calendar. Uses getClassPlan
 </div>
 
 
@@ -156,12 +156,19 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line109">line 109</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line243">line 243</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="global.html#getClassPlan">getClassPlan</a></li>
+        </ul>
+    </dd>
     
 
     
@@ -198,7 +205,7 @@
 
 
 <div class="description">
-    TODO: Documentation ENG
+    fills the class selection by the current labor
 </div>
 
 
@@ -242,7 +249,100 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line91">line 91</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line220">line 220</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="global.html#getLaborClasses">getLaborClasses</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="changeWeekClassListBack"><span class="type-signature"></span>changeWeekClassListBack<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Event function for setting the class week one week backward
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line273">line 273</a>
     </li></ul></dd>
     
 
@@ -276,7 +376,7 @@
     
 
     
-    <h4 class="name" id="getClassPlan"><span class="type-signature"></span>getClassPlan<span class="signature">(classId)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="changeWeekClassListForward"><span class="type-signature"></span>changeWeekClassListForward<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -284,7 +384,387 @@
 
 
 <div class="description">
-    gives back classPlan from classID
+    Event function for setting the class week one week forward
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line308">line 308</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="ClassWeekToDOM"><span class="type-signature"></span>ClassWeekToDOM<span class="signature">(weekObj)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Sets the class week display by the selected Class--DOM manipulating function--
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>weekObj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#AJAX_Week_Result">AJAX_Week_Result</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Arrayobject of the AJAX result</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line178">line 178</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="global.html#getWeekNumber">getWeekNumber</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="convertWeekNumToGerman"><span class="type-signature"></span>convertWeekNumToGerman<span class="signature">(num)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Converts a weekday number to a string in german
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">number of the Weekday 0-sunday 6-saturday</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line376">line 376</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    string of the Weekday in german
+</div>
+
+
+
+    
+
+
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>//returns MontagconvertWeekNumToGerman(1);</code></pre>
+
+    <pre class="prettyprint"><code>//returns NOT_VALID_NUMBERconvertWeekNumToGerman(7);</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getClassPlan"><span class="type-signature">(async) </span>getClassPlan<span class="signature">(classId, weekYear)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    AJAX FUNCTION: gives back classPlan from classID
 </div>
 
 
@@ -340,6 +820,29 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>weekYear</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">string of the week and year in format ww-yyyy, Def: ""</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -377,7 +880,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line58">line 58</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line95">line 95</a>
     </li></ul></dd>
     
 
@@ -404,7 +907,7 @@
 
         
 <div class="param-desc">
-    Array of classplans and State of Connection
+    Ajax Object of the Function
 </div>
 
 
@@ -421,7 +924,7 @@
     
 
     
-    <h4 class="name" id="getLaborClasses"><span class="type-signature"></span>getLaborClasses<span class="signature">(laborId)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="getLaborClasses"><span class="type-signature">(async) </span>getLaborClasses<span class="signature">(laborId)</span><span class="type-signature"></span></h4>
     
 
     
@@ -429,7 +932,7 @@
 
 
 <div class="description">
-    gives out a classList from a laborId
+    AJAX FUNCTION: gives out a classList from a laborId
 </div>
 
 
@@ -522,7 +1025,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line38">line 38</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line73">line 73</a>
     </li></ul></dd>
     
 
@@ -566,7 +1069,7 @@
     
 
     
-    <h4 class="name" id="getLaborList"><span class="type-signature"></span>getLaborList<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="getLaborList"><span class="type-signature">(async) </span>getLaborList<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -574,7 +1077,7 @@
 
 
 <div class="description">
-    Return the LaborList as Object
+    AJAX FUNCTION: Return the LaborList as Object
 </div>
 
 
@@ -618,7 +1121,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line16">line 16</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line50">line 50</a>
     </li></ul></dd>
     
 
@@ -662,6 +1165,148 @@
     
 
     
+    <h4 class="name" id="getWeekNumber"><span class="type-signature"></span>getWeekNumber<span class="signature">(d)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Gets the Weeknumber inside a yearNOTE: This is a external library and wasn't created by me
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>d</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Date Object</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="getWeek.js.html">getWeek.js</a>, <a href="getWeek.js.html#line7">line 7</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://jsfiddle.net/pegla/ytmayemr/">https://jsfiddle.net/pegla/ytmayemr/</a> Original</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="LaborClassToDOM"><span class="type-signature"></span>LaborClassToDOM<span class="signature">(classList)</span><span class="type-signature"></span></h4>
     
 
@@ -670,7 +1315,7 @@
 
 
 <div class="description">
-    Gets array of laborClasses and adds it to the dom
+    Gets array of laborClasses and adds it to the dom--DOM manipulating function--
 </div>
 
 
@@ -712,7 +1357,7 @@
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#AJAX_Result">AJAX_Result</a></span>
 
 
             
@@ -722,7 +1367,7 @@
 
             
 
-            <td class="description last">Array of the Classes</td>
+            <td class="description last">ArrayObj of the AJAX result</td>
         </tr>
 
     
@@ -763,7 +1408,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line80">line 80</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line147">line 147</a>
     </li></ul></dd>
     
 
@@ -805,7 +1450,7 @@
 
 
 <div class="description">
-    Gets array of labors and adds it to the dom
+    Gets array of labors and adds it to the dom--DOM manipulating function--
 </div>
 
 
@@ -847,7 +1492,7 @@
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#AJAX_Result">AJAX_Result</a></span>
 
 
             
@@ -857,7 +1502,7 @@
 
             
 
-            <td class="description last">Array of the Labors</td>
+            <td class="description last">ArrayObj of the AJAX Result</td>
         </tr>
 
     
@@ -898,7 +1543,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line67">line 67</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line121">line 121</a>
     </li></ul></dd>
     
 
@@ -940,7 +1585,7 @@
 
 
 <div class="description">
-    Setzt alle vorhandenen Infos im Dom hinein
+    Manipulates the DOM with preexisting Cookies
 </div>
 
 
@@ -984,12 +1629,19 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line115">line 115</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line346">line 346</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://github.com/js-cookie/js-cookie">https://github.com/js-cookie/js-cookie</a></li>
+        </ul>
+    </dd>
     
 
     
@@ -1016,6 +1668,319 @@
     
 
     
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<h4 class="name" id="AJAX_Result">AJAX_Result</h4>
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>resultObj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object of The result. If the was a server error then it is null</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>serverResponse</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Response of the server. SUCCESS or ERROR</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line8">line 8</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id="AJAX_Week_Result">AJAX_Week_Result</h4>
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>resultObj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object of The result. If the was a server error then it is null</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>newWeek</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">true: creates a new date for the calculation of the WeekNumber in the year</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>serverResponse</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Response of the server. SUCCESS or ERROR</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line15">line 15</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+    
 
     
 </article>
@@ -1028,13 +1993,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#changeDropDownSelectionLaborClass">changeDropDownSelectionLaborClass</a></li><li><a href="global.html#changeDropDownSelectionLaborList">changeDropDownSelectionLaborList</a></li><li><a href="global.html#getClassPlan">getClassPlan</a></li><li><a href="global.html#getLaborClasses">getLaborClasses</a></li><li><a href="global.html#getLaborList">getLaborList</a></li><li><a href="global.html#LaborClassToDOM">LaborClassToDOM</a></li><li><a href="global.html#LaborListToDOM">LaborListToDOM</a></li><li><a href="global.html#readCookies">readCookies</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#changeDropDownSelectionLaborClass">changeDropDownSelectionLaborClass</a></li><li><a href="global.html#changeDropDownSelectionLaborList">changeDropDownSelectionLaborList</a></li><li><a href="global.html#changeWeekClassListBack">changeWeekClassListBack</a></li><li><a href="global.html#changeWeekClassListForward">changeWeekClassListForward</a></li><li><a href="global.html#ClassWeekToDOM">ClassWeekToDOM</a></li><li><a href="global.html#convertWeekNumToGerman">convertWeekNumToGerman</a></li><li><a href="global.html#getClassPlan">getClassPlan</a></li><li><a href="global.html#getLaborClasses">getLaborClasses</a></li><li><a href="global.html#getLaborList">getLaborList</a></li><li><a href="global.html#getWeekNumber">getWeekNumber</a></li><li><a href="global.html#LaborClassToDOM">LaborClassToDOM</a></li><li><a href="global.html#LaborListToDOM">LaborListToDOM</a></li><li><a href="global.html#readCookies">readCookies</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Sep 27 2018 22:37:27 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Oct 16 2018 13:08:25 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>

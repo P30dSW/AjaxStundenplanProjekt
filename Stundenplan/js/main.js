@@ -25,7 +25,7 @@
 /**************************************************************** DOM LOADING METHODS AND EVENTS  ****************************************************************/
 $(document).ready(function(){
     
-    //getLaborList(function(){});
+    
     getLaborList();
     if(Cookies.get("beruf_id") != undefined){
         readCookies();
@@ -48,7 +48,7 @@ $(document).ready(function(){
  * @returns Ajax Object of the Function
  */
 function getLaborList(){
-    //(_con)
+   
     return $.ajax({
   url: "http://sandbox.gibm.ch/berufe.php",
   dataType: "json",
@@ -61,7 +61,7 @@ success: function(json){
     LaborListToDOM( [json,"SUCCESS"]);
 }
     });
-    //_con();
+    
 }
 
 /**
@@ -319,7 +319,8 @@ function changeWeekClassListForward(){
         }
         else if(newWeekNum > 52){
             newWeekNum = 1;
-            newYear += 1;
+            //double + + for addtion with strings
+            newYear = 1 + + newYear;
         }
         //set on btn value
         $("#displayBtn").attr("woche",newYear + "," + newWeekNum);
