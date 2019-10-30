@@ -50,7 +50,7 @@ $(document).ready(function(){
 function getLaborList(){
    
     return $.ajax({
-  url: "http://sandbox.gibm.ch/berufe.php",
+  url: "https://sandbox.gibm.ch/berufe.php",
   dataType: "json",
   error: function(){ 
    
@@ -73,7 +73,7 @@ success: function(json){
 function getLaborClasses(laborId){
     
     return $.ajax({
-        url: "http://sandbox.gibm.ch/klassen.php?beruf_id=" + laborId,
+        url: "https://sandbox.gibm.ch/klassen.php?beruf_id=" + laborId,
         dataType: "json",
         error: function(){ 
          
