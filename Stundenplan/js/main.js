@@ -95,9 +95,9 @@ function getLaborClasses(laborId){
 function getClassPlan(classId,newWeek,weekYear = ""){
     var url = "";
     if( weekYear != ""){
-        url = "http://sandbox.gibm.ch/tafel.php?klasse_id=" + classId + "&woche=" +weekYear.slice(5) + "-" + weekYear.slice(0,4);
+        url = "https://sandbox.gibm.ch/tafel.php?klasse_id=" + classId + "&woche=" +weekYear.slice(5) + "-" + weekYear.slice(0,4);
     }else{
-        url = "http://sandbox.gibm.ch/tafel.php?klasse_id=" + classId;
+        url = "https://sandbox.gibm.ch/tafel.php?klasse_id=" + classId;
     }
     return $.ajax({
         url: url,
